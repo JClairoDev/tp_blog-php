@@ -12,7 +12,8 @@ $user = User::isLogged();
 if($user === false) {
     header('Location: login.php');
 }
-
+//On récupère l'id de l'article qu'on a dans l'url
+$articleId = $_GET['id'];
 $commentary = new Commentary();
 $commentaryRepository = new CommentaryRepository();
 
@@ -21,20 +22,17 @@ $userRepository = new UserRepository();
 if(isset($_POST['commentary'])){
     $commentary->setCommentary($_POST['commentary']);
     if(!empty($commentary)) {
-        $commentaryRepository->addCommentary($commentary, $user);
+        $commentaryRepository->addCommentary($commentary, $user, $articleId);
     }
 }
-
-
-
+$commentariesToShow=$commentaryRepository->getAllCommentary();
 
 //Si le paramètre id n'existe pas
 if (!isset($_GET['id'])) {
     header('Location: index.php');
 }
 
-//On récupère l'id de l'article qu'on a dans l'url
-$articleId = $_GET['id'];
+
 
 //On va chercher dans la liste des articles, l'article qui correspond à l'id qu'on a dans l'url
 $articleToShow = $articleRepository->findArticle($articleId);
@@ -79,6 +77,16 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
                 </textarea>
                 <button class="btn btn-primary" type="submit">Enregistrer</button>
             </form>
+            <ul>
+                <?php foreach($commentariesToShow as $commentaryToShow):?>
+                <?php if($commentaryToShow['idArticle']==$articleId):?>
+                    <li>
+                         <?=$commentaryToShow['commentary']?>
+                    </li><br>
+                <?php endif;?>
+                <?php endforeach;?>
+            </ul>
+
         </div>
     </div>
     <?php require_once 'includes/footer.php' ?>
