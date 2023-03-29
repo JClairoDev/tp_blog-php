@@ -8,9 +8,9 @@ require_once('classes/Commentary.php');
 require_once('classes/Repository/CommentaryRepository.php');
 
 $user = User::isLogged();
-
+$authorCom=[];
 if($user === false) {
-    header('Location: login.php');
+                                header('Location: login.php');
 }
 //On récupère l'id de l'article qu'on a dans l'url
 $articleId = $_GET['id'];
@@ -25,7 +25,7 @@ if(isset($_POST['commentary'])){
         $commentaryRepository->addCommentary($commentary, $user, $articleId);
     }
 }
-$commentariesToShow=$commentaryRepository->getAllCommentary();
+$commentariesToShow=$commentaryRepository->getAllCommentaries();
 
 //Si le paramètre id n'existe pas
 if (!isset($_GET['id'])) {
@@ -71,19 +71,31 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
                 <a class="btn btn-primary" href="/form-article.php?id=<?= $articleId ?>">Editer l'article</a>
             </div>
             <?php endif; ?>
+
             <h1>Commentaires</h1>
+
             <form action="#" method="POST">
                 <textarea id="commentary" name="commentary" cols="150" rows="10">
                 </textarea>
                 <button class="btn btn-primary" type="submit">Enregistrer</button>
             </form>
+            
             <ul>
                 <?php foreach($commentariesToShow as $commentaryToShow):?>
+
+                <?php $authorCom=$userRepository->getById($commentaryToShow['idUser'])?>
+
                 <?php if($commentaryToShow['idArticle']==$articleId):?>
                     <li>
                          <?=$commentaryToShow['commentary']?>
-                    </li><br>
+                        <br>
+                        <span>Rédigé par : <?= $authorCom->getNom() . ' ' . $authorCom->getPrenom() ?></span>
+                        <br>
+                    </li>
+                        <br>
+
                 <?php endif;?>
+
                 <?php endforeach;?>
             </ul>
 

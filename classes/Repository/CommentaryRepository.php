@@ -16,7 +16,7 @@ class CommentaryRepository extends AbstractRepository
     /**
      * @return Commentary[]
      */
-    public function getAllCommentary(): array
+    public function getAllCommentaries(): array
     {
         $sql = "SELECT * FROM commentary";
         $statement = $this->db->prepare($sql);
@@ -24,4 +24,6 @@ class CommentaryRepository extends AbstractRepository
 
         return $statement->fetchAll();
     }
+
+
 }
