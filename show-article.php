@@ -82,25 +82,22 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
             
             <ul>
                 <?php foreach($commentariesToShow as $commentaryToShow):?>
-
                 <?php $authorCom=$userRepository->getById($commentaryToShow['idUser'])?>
-
                 <?php if($commentaryToShow['idArticle']==$articleId):?>
                     <li>
                         <div class="article-content">
                          <?=$commentaryToShow['commentary']?>
                             <div class="action">
-                            <span>Rédigé par : <?= $authorCom->getNom() . ' ' . $authorCom->getPrenom() ?></span>
-                            <a class="btn btn-danger" href="/delete-commentary.php?idCom=<?=$commentaryToShow['id']?>&idArticle=<?=$articleId?>">Supprimer</a>
-                        </div>
+                                <span>Rédigé par : <?= $authorCom->getNom() . ' ' . $authorCom->getPrenom() ?></span>
+                                <?php if($authorCom->getId()==$user->getId()):?>
+                                <a class="btn btn-danger" href="/delete-commentary.php?idCom=<?=$commentaryToShow['id']?>&idArticle=<?=$articleId?>">Supprimer</a>
+                                <?php endif;?>
+                            </div>
                     </li>
                         <br>
-
                 <?php endif;?>
-
                 <?php endforeach;?>
             </ul>
-
         </div>
     </div>
     <?php require_once 'includes/footer.php' ?>
