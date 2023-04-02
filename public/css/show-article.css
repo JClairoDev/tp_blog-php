@@ -13,6 +13,7 @@
 }
 
 .article-content {
+    border: #2c3e50 solid 2px;
     white-space: pre-wrap;
 }
 

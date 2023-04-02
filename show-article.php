@@ -67,8 +67,8 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
             <p class="article-content"><?= $articleToShow->getContent() ?></p>
             <?php if($user !== false && ($auteur->getId() === $user->getId())): ?>
             <div class="action">
-                <a class="btn btn-secondary" href="/delete-article.php?id=<?= $articleId ?>">Supprimer</a>
-                <a class="btn btn-primary" href="/form-article.php?id=<?= $articleId ?>">Editer l'article</a>
+                <a class="btn btn-danger" href="/delete-article.php?id=<?= $articleId ?>">Supprimer</a>
+                <a class="btn" href="/form-article.php?id=<?= $articleId ?>">Editer l'article</a>
             </div>
             <?php endif; ?>
 
@@ -77,7 +77,7 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
             <form action="#" method="POST">
                 <textarea id="commentary" name="commentary" cols="150" rows="10">
                 </textarea>
-                <button class="btn btn-primary" type="submit">Enregistrer</button>
+                <button class="btn" type="submit">Enregistrer</button>
             </form>
             
             <ul>
@@ -87,10 +87,12 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
 
                 <?php if($commentaryToShow['idArticle']==$articleId):?>
                     <li>
+                        <div class="article-content">
                          <?=$commentaryToShow['commentary']?>
-                        <br>
-                        <span>Rédigé par : <?= $authorCom->getNom() . ' ' . $authorCom->getPrenom() ?></span>
-                        <br>
+                            <div class="action">
+                            <span>Rédigé par : <?= $authorCom->getNom() . ' ' . $authorCom->getPrenom() ?></span>
+                            <a class="btn btn-danger" href="/delete-commentary.php?idCom=<?=$commentaryToShow['id']?>&idArticle=<?=$articleId?>">Supprimer</a>
+                        </div>
                     </li>
                         <br>
 
