@@ -25,12 +25,21 @@ class CommentaryRepository extends AbstractRepository
         return $statement->fetchAll();
     }
 
-    public function deleteArticle(int $commentaryId): void
+    public function deleteCommentary(int $commentaryId): void
     {
         $sql = "DELETE FROM commentary WHERE id = :id";
         $query = $this->db->prepare($sql);
         $query->execute([
             'id' => $commentaryId
+        ]);
+    }
+
+    public function deleteCommentaryFromArticle(int $idArticle) :void
+    {
+        $sql = "DELETE FROM commentary WHERE idArticle = :idArticle";
+        $query = $this->db->prepare($sql);
+        $query->execute([
+            'idArticle' => $idArticle
         ]);
     }
 

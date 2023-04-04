@@ -3,6 +3,7 @@ session_start();
 require_once('classes/Article.php');
 require_once('classes/User.php');
 require_once('classes/Repository/ArticleRepository.php');
+require_once ('classes/Repository/CommentaryRepository.php');
 
 $user = User::isLogged();
 
@@ -11,6 +12,7 @@ if($user === false) {
 }
 
 $articleRepository = new ArticleRepository();
+$commentaryRepository = new commentaryRepository;
 
 //Je récupère l'id de l'article à supprimer
 $articleId = $_GET['id'];
@@ -22,5 +24,7 @@ if($user->getId() !== $article->getUserId()) {
 }
 //Suppression de l'article
 $articleRepository->deleteArticle($articleId);
+$commentaryRepository->deleteCommentaryFromArticle($articleId);
+
 //Je redirige vers l'accueil
 header('Location: index.php');
