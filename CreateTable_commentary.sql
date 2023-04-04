@@ -1,0 +1,11 @@
+
+
+CREATE TABLE commentary(
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+commentary TEXT,
+idUser INT NOT NULL,
+idArticle INT NOT NULL
+);
+
+ALTER TABLE commentary
+ADD FOREIGN KEY (idUser) REFERENCES user(id);

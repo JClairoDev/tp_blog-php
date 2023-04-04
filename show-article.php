@@ -10,29 +10,29 @@ require_once('classes/Repository/CommentaryRepository.php');
 $user = User::isLogged();
 $authorCom=[];
 if($user === false) {
-                                header('Location: login.php');
+    header('Location: login.php');
 }
 //On récupère l'id de l'article qu'on a dans l'url
 $articleId = $_GET['id'];
 $commentary = new Commentary();
 $commentaryRepository = new CommentaryRepository();
-
 $articleRepository = new ArticleRepository();
 $userRepository = new UserRepository();
+
+//j'ajoute le commentaire saisi
 if(isset($_POST['commentary'])){
     $commentary->setCommentary($_POST['commentary']);
     if(!empty($commentary)) {
         $commentaryRepository->addCommentary($commentary, $user, $articleId);
     }
 }
+//je récupère les commentaires pour l'affichage
 $commentariesToShow=$commentaryRepository->getAllCommentaries();
 
 //Si le paramètre id n'existe pas
 if (!isset($_GET['id'])) {
     header('Location: index.php');
 }
-
-
 
 //On va chercher dans la liste des articles, l'article qui correspond à l'id qu'on a dans l'url
 $articleToShow = $articleRepository->findArticle($articleId);
@@ -41,7 +41,7 @@ $articleToShow = $articleRepository->findArticle($articleId);
 if ($articleToShow === false) {
     header('Location: index.php');
 }
-
+//récupération de l'auteur de l'article
 $auteur = $userRepository->getById($articleToShow->getUserId());
 ?>
 
@@ -74,14 +74,17 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
 
             <h1>Commentaires</h1>
 
+<!-- je définie un espace de saisie des commentaires -->
+
             <form action="#" method="POST">
                 <textarea id="commentary" name="commentary" cols="150" rows="10">
                 </textarea>
                 <button class="btn" type="submit">Enregistrer</button>
             </form>
-            
+            <!--je constitue la boucle pour l'affichage des commentaires-->
             <ul>
                 <?php foreach($commentariesToShow as $commentaryToShow):?>
+                    <!--je récupère l'auteur des commentaires-->
                 <?php $authorCom=$userRepository->getById($commentaryToShow['idUser'])?>
                 <?php if($commentaryToShow['idArticle']==$articleId):?>
                     <li>
@@ -89,6 +92,7 @@ $auteur = $userRepository->getById($articleToShow->getUserId());
                          <?=$commentaryToShow['commentary']?>
                             <div class="action">
                                 <span>Rédigé par : <?= $authorCom->getNom() . ' ' . $authorCom->getPrenom() ?></span>
+                                <!--je créer la condition d'affichage de la suppression-->
                                 <?php if($authorCom->getId()==$user->getId()):?>
                                 <a class="btn btn-danger" href="/delete-commentary.php?idCom=<?=$commentaryToShow['id']?>&idArticle=<?=$articleId?>">Supprimer</a>
                                 <?php endif;?>

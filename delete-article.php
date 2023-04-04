@@ -24,6 +24,8 @@ if($user->getId() !== $article->getUserId()) {
 }
 //Suppression de l'article
 $articleRepository->deleteArticle($articleId);
+
+//Suppression des commentaires attachés à l'article
 $commentaryRepository->deleteCommentaryFromArticle($articleId);
 
 //Je redirige vers l'accueil

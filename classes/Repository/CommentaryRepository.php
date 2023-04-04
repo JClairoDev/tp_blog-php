@@ -33,7 +33,7 @@ class CommentaryRepository extends AbstractRepository
             'id' => $commentaryId
         ]);
     }
-
+//cette fonction permet la suppression des commentaires lors de la suppression de l'article
     public function deleteCommentaryFromArticle(int $idArticle) :void
     {
         $sql = "DELETE FROM commentary WHERE idArticle = :idArticle";

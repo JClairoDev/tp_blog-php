@@ -12,8 +12,11 @@ if($user === false) {
 
 $commentaryRepository=new CommentaryRepository();
 
+//je récupère l'id du commentaire
 $commentaryId = $_GET['idCom'];
+//je récupère l'id de l'article
 $articleId=$_GET['idArticle'];
-var_dump($commentaryId);
+//je supprime le commentaire
 $commentaryRepository->deleteCommentary($commentaryId);
+//je redirige vers l'article concerné
 header('Location: show-article.php?id='.$articleId );
